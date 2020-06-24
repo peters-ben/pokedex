@@ -24,3 +24,9 @@ body {
 #btndiv {
     margin-top: 2%;
 }
+
+.pokemon {
+    color: black;
+    font-size: x-large;
+    display: inline;
+}

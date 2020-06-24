@@ -1,3 +1,16 @@
-#map {
-    height: 980px;
+body {
+    background-color: lightskyblue;
+}
+.container {
+    margin-top: 20%
+}
+#search {
+    width: 65%;
+    display: block;
+    padding-left: 1%;
+    margin: 0px auto; 
+    height: 200px;
+    border: 3px solid black;
+    font-size: xx-large;
+    font-family: Arial, Helvetica, sans-serif;
 }

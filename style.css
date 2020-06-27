@@ -30,3 +30,8 @@ body {
     font-size: x-large;
     display: inline;
 }
+
+ #pokemon-img {
+    width: 13%;
+    height: 200px;
+} 

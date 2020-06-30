@@ -18,11 +18,25 @@ function submit() {
         }
 
 }).then(data => {
-    document.getElementById("pokemon-name").innerText = "Name: " + data.forms[0].name.slice(0,1).toUpperCase() +
+    let name = data.forms[0].name.slice(0,1).toUpperCase() +
         data.forms[0].name.slice(1);
-    document.getElementById("pokemon-type").innerText = "Type: " + data.types[0].type.name.slice(0,1).toUpperCase() +
-        data.types[0].type.name.slice(1);
-    document.getElementById("pokemon-weight").innerText = "Weight: " + (data.weight / 10) + " kg";
+    let id = data.id;
+    if(id < 100) {
+        if(id < 10) {
+            id = "00" + id;
+        }
+        else {
+            id = "0" + id;
+        }
+    }
+    let height = data.height;
+    let type = data.types[0].type.name.slice(0,1).toUpperCase() +
+    data.types[0].type.name.slice(1);
+    let weight = data.weight / 10;
+    document.getElementById("pokeball-img").src = "https://p7.hiclipart.com/preview/858/879/587/5bbeb70d53fc2.jpg"
+    document.getElementById("pokemon-name").innerText = id + "\t" + name;
+    document.getElementById("pokemon-type").innerText = "Type: "+ type; 
+    document.getElementById("pokemon-weight").innerText = "Weight: " + weight + " kg";
     document.getElementById("pokemon-img").src = data.sprites.front_default;
 })
 .catch(error => console.log("ERROR"));

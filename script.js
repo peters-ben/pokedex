@@ -1,7 +1,10 @@
-function submit() {
+function submit(choice) {
     let pokemon = document.getElementById("search").value;
     pokemon = pokemon.toLowerCase();
-    if(pokemon == "") {
+    if(choice == 1) {
+        pokemon = Math.floor(Math.random() * 806) + 1;
+    }
+    if(pokemon == "" && choice == 0) {
 
     } else {
         if (!isNaN(parseInt(pokemon))) 
@@ -15,7 +18,8 @@ function submit() {
             document.getElementById("pokemon-type").innerText = "Type: N/A"
             document.getElementById("pokemon-weight").innerText = "Weight: N/A";
             document.getElementById("pokemon-img").src = "https://w7.pngwing.com/pngs/190/415/png-transparent-pokemon-gold-and-silver-pokemon-heartgold-and-soulsilver-pokemon-ruby-and-sapphire-question-mark-text-trademark-logo.png";
-            document.getElementById("pokemon-img").height = "100"; !important
+            document.getElementById("pokemon-img").height = "100";
+            document.getElementById("pokemon-description").innerText = "No description available.";
             console.log("Error!");
         }
 
@@ -39,7 +43,7 @@ function submit() {
 
         }
     }).then(species => {
-        for(i = 9; i < 20; i++) {
+        for(i = 10; i < 20; i++) {
             if(species.flavor_text_entries[i].language.name == "en") {
                 console.log(i);
                 let description = species.flavor_text_entries[i].flavor_text;

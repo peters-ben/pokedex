@@ -14,15 +14,23 @@ body {
     font-size: xx-large;
     font-family: Arial, Helvetica, sans-serif;
 }
+#buttons {
+    text-align: center;
+    padding: 1%;
+}
 #submit {
-    display: block;
-    margin: 0px auto;
+    margin-left: auto;
+    margin-right: auto;
     width: 25%;
     height: 80px;
+    font-size: x-large;
 }
-
-#btndiv {
-    margin-top: 2%;
+#random {
+    width: 16%;
+    font-size: x-large;
+    height: 80px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .pokemon {
@@ -38,7 +46,6 @@ body {
     margin: 3% auto;
     width: 40%;
     height: 330px;
-    border: 3px solid black;
 }
 #pokeball-img {
     width: 7%;
@@ -74,10 +81,11 @@ body {
 #pokemon-img-div {
     margin-left: 1%;
     margin-right: auto;
-    width: 40%;
-    height: 50%;
+    width: 30%;
+    height: 40%;
     position: relative;
-    top: -40%;
+    top: -33%;
+    left: 5%;
 }
 
 #pokemon-weight-div {
@@ -88,10 +96,12 @@ body {
     margin-right: 26.5%;
     margin-left: auto;
     position: relative;
-    top: -45%;
+    top: -33%;
 }
 #pokemon-description-div {
-    border: 3px solid black;
     text-align: justify;
     white-space: nowrap;
+    position: relative;
+    top: -25%;
+    padding-left: 2%;
 }

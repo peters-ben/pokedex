@@ -4,6 +4,8 @@ function submit() {
     if(pokemon == "") {
 
     } else {
+        if (!isNaN(parseInt(pokemon))) 
+            pokemon = parseInt(pokemon);
     fetch("https://pokeapi.co/api/v2/pokemon/" + pokemon).then(res => {
         if(res.ok) {
             console.log("Success!");
@@ -20,7 +22,7 @@ function submit() {
 }).then(data => {
     let name = data.forms[0].name.slice(0,1).toUpperCase() +
         data.forms[0].name.slice(1);
-    let id = data.id;
+    let id = parseInt(data.id);
     if(id < 100) {
         if(id < 10) {
             id = "00" + id;
@@ -29,16 +31,37 @@ function submit() {
             id = "0" + id;
         }
     }
-    let height = data.height;
+    fetch("https://pokeapi.co/api/v2/pokemon-species/" + parseInt(id)).then(res2 => {
+        if(res2.ok) {
+            console.log("Species Success!");
+            return res2.json();
+        } else {
+
+        }
+    }).then(species => {
+        for(i = 9; i < 20; i++) {
+            if(species.flavor_text_entries[i].language.name == "en") {
+                console.log(i);
+                let description = species.flavor_text_entries[i].flavor_text;
+                document.getElementById("pokemon-description").innerText = description;
+                break;
+            }
+            else {
+                let description = "No description available."
+                document.getElementById("pokemon-description").innerText = description;
+            }
+        }
+    }).catch(error => console.log("SPECIES ERROR!"));
+    let height = data.height / 10;
     let type = data.types[0].type.name.slice(0,1).toUpperCase() +
     data.types[0].type.name.slice(1);
     let weight = data.weight / 10;
     document.getElementById("pokeball-img").src = "https://p7.hiclipart.com/preview/858/879/587/5bbeb70d53fc2.jpg"
     document.getElementById("pokemon-name").innerText = id + "\t" + name;
-    document.getElementById("pokemon-type").innerText = "Type: "+ type; 
+    document.getElementById("pokemon-type").innerText = type; 
     document.getElementById("pokemon-weight").innerText = "Weight: " + weight + " kg";
-    document.getElementById("pokemon-img").src = data.sprites.front_default;
-})
-.catch(error => console.log("ERROR"));
+    document.getElementById("pokemon-height").innerText = "Height: " + height + " m";
+    document.getElementById("pokemon-img").src = "images/" + id + ".png";
+}).catch(error => console.log("ERROR"));
     }
 }

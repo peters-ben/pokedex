@@ -1,4 +1,6 @@
 function submit(choice) {
+    if(document.getElementById("pokemon-info").style.display == "none")
+        document.getElementById("pokemon-info").style.display = "block";
     let pokemon = document.getElementById("search").value;
     pokemon = pokemon.toLowerCase();
     if (!isNaN(parseInt(pokemon))) 
@@ -10,27 +12,26 @@ function submit(choice) {
 
     } else {
     getData(pokemon).then(data => {
-    console.log(data);  
-    let height = data.height / 10;
-    let type = data.types[0].type.name.slice(0,1).toUpperCase() +
-    data.types[0].type.name.slice(1);
-    let weight = data.weight / 10;
-    let name = data.forms[0].name.slice(0,1).toUpperCase() +
-    data.forms[0].name.slice(1);
-    let id = parseInt(data.id);
-    if(id < 100) {
-        if(id < 10) 
-            id = "00" + id;
-        else 
-            id = "0" + id;
-    }
-    getSpecies(id);
-    document.getElementById("pokeball-img").src = "https://p7.hiclipart.com/preview/858/879/587/5bbeb70d53fc2.jpg"
-    document.getElementById("pokemon-name").innerText = id + "\t" + name;
-    document.getElementById("pokemon-type").innerText = type; 
-    document.getElementById("pokemon-weight").innerText = "Weight: " + weight + " kg";
-    document.getElementById("pokemon-height").innerText = "Height: " + height + " m";
-    document.getElementById("pokemon-img").src = "images/" + id + ".png";
+        let id = parseInt(data.id);
+        if(id < 100) {
+            if(id < 10) 
+                id = "00" + id;
+            else 
+                id = "0" + id;
+        }
+        getSpecies(id);
+        let height = data.height / 10;
+        let type = data.types[0].type.name.slice(0,1).toUpperCase() +
+        data.types[0].type.name.slice(1);
+        let weight = data.weight / 10;
+        let name = data.forms[0].name.slice(0,1).toUpperCase() +
+        data.forms[0].name.slice(1);
+        document.getElementById("pokeball-img").src = "https://p7.hiclipart.com/preview/858/879/587/5bbeb70d53fc2.jpg"
+        document.getElementById("pokemon-name").innerText = id + "\t" + name;
+        document.getElementById("pokemon-type").innerText = type; 
+        document.getElementById("pokemon-weight").innerText = "Weight: " + weight + " kg";
+        document.getElementById("pokemon-height").innerText = "Height: " + height + " m";
+        document.getElementById("pokemon-img").src = "images/" + id + ".png";
         })
     }
 }
@@ -40,11 +41,13 @@ function getData(pokemon) {
         console.log("Success!");
         return res.json();
     } else {
-        document.getElementById("pokemon-name").innerText = "Name: Unknown Pokemon";
+        document.getElementById("pokeball-img").src = "https://p7.hiclipart.com/preview/858/879/587/5bbeb70d53fc2.jpg"
+        document.getElementById("pokemon-name").innerText = "--- Unknown Pokemon";
         document.getElementById("pokemon-type").innerText = "Type: N/A"
         document.getElementById("pokemon-weight").innerText = "Weight: N/A";
+        document.getElementById("pokemon-height").innerText = "Height: N/A";
         document.getElementById("pokemon-img").src = "https://w7.pngwing.com/pngs/190/415/png-transparent-pokemon-gold-and-silver-pokemon-heartgold-and-soulsilver-pokemon-ruby-and-sapphire-question-mark-text-trademark-logo.png";
-        document.getElementById("pokemon-img").height = "100";
+        
         document.getElementById("pokemon-description").innerText = "No description available.";
         console.log("Error!");
     }

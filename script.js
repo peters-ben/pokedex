@@ -1,6 +1,4 @@
 function submit(choice) {
-    if(document.getElementById("pokemon-info").style.display == "none")
-        document.getElementById("pokemon-info").style.display = "block";
     let pokemon = document.getElementById("search").value;
     pokemon = pokemon.toLowerCase();
     if (!isNaN(parseInt(pokemon))) 
@@ -20,6 +18,8 @@ function submit(choice) {
                 id = "0" + id;
         }
         getSpecies(id);
+        if(document.getElementById("pokemon-info").style.display == "none")
+        document.getElementById("pokemon-info").style.display = "block";
         let height = data.height / 10;
         let type = data.types[0].type.name.slice(0,1).toUpperCase() +
         data.types[0].type.name.slice(1);

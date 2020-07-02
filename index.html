@@ -2,37 +2,22 @@
 <html>
     <head>
         <link rel="stylesheet" href="style.css">
-        <script src="script.js"></script>
-        <title> Online Pokedex</title>
+        <title>Online Pokedex</title>
     </head>
     <body>
-        <div class="container">
-            <input id="search" type="text" placeholder="Enter a Pokemon's name or Pokedex number">
+        <ul>
+            <li class="active"><a href="index.html">Home</a></li>
+            <li><a>Login</a></li>
+            <li><a href="search.html">Search</a></li>
+            <li><a>About</a></li>
+        </ul>
+        <div id="home-description">
+        <p class="pokemon">Hello and welcome to my online Pokedex! This website will allow you to
+            look up as well as keep track of any Pokemon you have seen or caught
+            on your journey through the Pokemon world! If you wish to keep track
+            of which Pokemon you have seen or caught, be sure to create an account
+            and stay logged in!
+        </p>
         </div>
-        <div id="buttons">
-                <input id="submit" type="submit" onclick="submit(0)">
-                <input id="random" type="submit" onclick="submit(1)" value="Random">
-        </div>
-        <div id="pokemon-info" style="display: none">
-            <div id="pokemon-name-div">
-                <img id="pokeball-img">
-                <p id="pokemon-name" class="pokemon"></p>
-            </div>
-            <div id="pokemon-type-div">
-                <p id="pokemon-type" class="pokemon"></p>
-            </div>
-            <div id="pokemon-img-div">
-                <img id="pokemon-img" class="pokemon">
-            </div>
-            <div id="pokemon-weight-div">
-                <p id="pokemon-weight" class="pokemon"></p>
-                <p id="pokemon-height" class="pokemon"></p>
-            </div>
-            <div id="pokemon-description-div">
-                <p id="pokemon-description" class="pokemon"></p>
-            </div>
-        </div>
-        <script>
-        </script>
     </body>
 </html>

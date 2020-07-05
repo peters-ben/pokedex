@@ -80,3 +80,21 @@ function getSpecies(id) {
         }
     }).catch(error => console.log("SPECIES ERROR!"));
 }
+function register() {
+    if(document.getElementById("password").value != document.getElementById("re-password").value) {
+        document.getElementById("error").innerText = "ERROR: Passwords must match!";
+        console.log("Error! passwords don't match");
+    }
+    else if(document.getElementById("password").value.length < 5) {
+        document.getElementById("error").innerText = "ERROR: Password must be 5+ characters long!";
+        console.log("Error! password too short");
+    }
+    else if(document.getElementById("username").value.length < 3 || document.getElementById("username").value.length > 15) {
+        document.getElementById("error").innerHTML = "ERROR: Username must be 3-15 characters long!";
+        console.log("Error! username too short!");
+    }
+    else {
+        document.getElementById("error").innerHTML = "";
+        console.log("Successful register!");
+    }
+}

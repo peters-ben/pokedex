@@ -33,6 +33,7 @@ ul {
     background-color: darkred;
 }
 #search {
+    outline: none;
     width: 45%;
     display: block;
     padding-left: 1%;
@@ -48,13 +49,21 @@ ul {
     padding: 1%;
 }
 #submit {
+    outline: none;
     margin-left: auto;
+    background-color: indigo;
+    color: whitesmoke;
+    border-radius: 10px;
     margin-right: auto;
     width: 25%;
     height: 80px;
     font-size: x-large;
 }
 #random {
+    outline: none;
+    background-color: indigo;
+    color: whitesmoke;
+    border-radius: 10px;
     width: 16%;
     font-size: x-large;
     height: 80px;
@@ -147,6 +156,7 @@ ul {
     text-align: center;
 }
 .user {
+    outline: none;
     width: 60%;
     display: block;
     padding-left: 1%;
@@ -158,6 +168,7 @@ ul {
     border-radius: 25px;   
 }
 #login {
+    outline: none;
     width: 40%;
     height: 75px;
     background-color: indigo;
@@ -169,4 +180,32 @@ header {
     text-align: center;
     font-size: 6rem;
     margin-top: 5%;
+}
+#reset-div {
+    margin-top: 1%;
+    margin-left: 1%;
+    text-align: center;
+    width: 17%;
+}
+#reset {
+    outline: none;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 100%;
+    display: block;
+    padding-left: 3%;
+    height: 30px;
+    border: 3px solid black;
+    font-size: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 25px;   
+}
+#reset-btn {
+    outline: none;
+    width: 47%;
+    height: 28px;
+    background-color: indigo;
+    color: whitesmoke;
+    font-size: 1rem;
+    border-radius: 10px;
 }

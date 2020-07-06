@@ -1,14 +1,22 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail, Message
 import bcrypt
 import secrets
 app = Flask(__name__)
+app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://' + secrets.username + ':' + secrets.password + '@'\
                                         + secrets.address
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SECRET_KEY'] = secrets.SECRET_KEY
+app.config['MAIL_SERVER'] = secrets.MAIL_SERVER
+app.config['MAIL_PORT'] = secrets.MAIL_PORT
+app.config['MAIL_USERNAME'] = secrets.MAIL_USERNAME
+app.config['MAIL_PASSWORD'] = secrets.MAIL_PASSWORD
+app.config['MAIL_USE_SSL'] = secrets.MAIL_USE_SSL
+app.config['MAIL_USE_TLS'] = secrets.MAIL_USE_TLS
 db = SQLAlchemy(app)
-
+mail = Mail(app)
 
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -62,6 +70,12 @@ def register():
             user = Users(username, email, hashed)
             db.session.add(user)
             db.session.commit()
+            message = Message("Welcome to Online Pokedex!", recipients=[email], sender=secrets.MAIL_USERNAME)
+            message.body = "Dear " + username + ",\nWelcome to the Online Pokedex! With this account, " \
+                                               "you can keep track\nof which Pokemon you have seen or captured!\nI hope" \
+                                               " you enjoy the website!" \
+                                               "\nThanks, Online Pokedex"
+            mail.send(message)
             return redirect(url_for("index"))
     else:
         return render_template('register.html')

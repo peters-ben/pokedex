@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
 import secrets
@@ -6,6 +6,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://' + secrets.username + ':' + secrets.password + '@'\
                                         + secrets.address
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.config['SECRET_KEY'] = secrets.SECRET_KEY
 db = SQLAlchemy(app)
 
 
@@ -49,12 +50,19 @@ def register():
     if request.method == 'POST':
         username = request.form["username"]
         email = request.form["email"]
-        password = request.form["password"]
-        hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-        user = Users(username, email, hashed)
-        db.session.add(user)
-        db.session.commit()
-        return redirect(url_for("index"))
+        if db.session.query(db.exists().where(Users.username == username)).scalar():
+            flash("Error! Username already taken!")
+            return render_template('register.html')
+        elif db.session.query(db.exists().where(Users.email == email)).scalar():
+            flash("Error! Email already taken!")
+            return render_template('register.html')
+        else:
+            password = request.form["password"]
+            hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+            user = Users(username, email, hashed)
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for("index"))
     else:
         return render_template('register.html')
 

@@ -87,7 +87,11 @@ function register() {
         document.getElementById("error").innerHTML = "ERROR: Username must be 3-15 characters long!";
         console.log("Error! username too short!");
     }
-    else if(document.getElementById("password").value < 5) {
+    else if(!email) {
+        document.getElementById("error").innerHTML = "ERROR: Please enter an email!";
+        console.log("Error! No email entered!");
+        }
+    else if(document.getElementById("password").value.length < 5) {
         document.getElementById("error").innerText = "ERROR: Password must be 5+ characters long!";
         console.log("Error! password too short");
     }
@@ -100,6 +104,6 @@ function register() {
         console.log("Successful register!");
         return true;
         }
-        console.log("error in submitting form!");
-        return false;
+    console.log("error in submitting form!");
+    return false;
 }

@@ -1,0 +1,234 @@
+body {
+    background-color: lightskyblue;
+    
+}
+.container {
+    margin-top: 3%
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: gray;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: white;
+    font-size: x-large;
+    text-align: center;
+    padding: 16px 16px;
+    text-decoration: none;
+  }
+  
+  li a:hover {
+    background-color: #111;
+  }
+.active {
+    background-color: darkred;
+}
+#search {
+    outline: none;
+    width: 45%;
+    display: block;
+    padding-left: 1%;
+    margin: 0px auto; 
+    height: 125px;
+    border: 3px solid black;
+    font-size: xx-large;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 25px;
+}
+#buttons {
+    text-align: center;
+    padding: 1%;
+}
+#submit {
+    outline: none;
+    margin-left: auto;
+    background-color: indigo;
+    color: whitesmoke;
+    border-radius: 10px;
+    margin-right: auto;
+    width: 25%;
+    height: 80px;
+    font-size: x-large;
+}
+#random {
+    outline: none;
+    background-color: indigo;
+    color: whitesmoke;
+    border-radius: 10px;
+    width: 16%;
+    font-size: x-large;
+    height: 80px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.pokemon {
+    color: whitesmoke;
+    font-size: x-large;
+    font-weight: bold;
+    stroke: black;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    display: inline;
+}
+#home-description {
+    width: 50%;
+    text-align: center;
+    margin: 1% auto;
+    background-color: #333;
+    border-radius: 25px;
+    padding: 1%;
+}
+#pokemon-info {
+    margin: 3% auto;
+    width: 40%;
+    height: 330px;
+}
+#pokeball-img {
+    width: 7%;
+    border-radius: 100%;
+    position: relative;
+    top: 2.5px;
+}
+#pokemon-name-div {
+    padding-left: 5px;
+    background-color: red;
+    width: 50%;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: 5%;
+    border: 3px solid black;
+}
+ #pokemon-img {
+    width: 100%;
+}
+
+#pokemon-type-div {
+    border: 3px solid black;
+    width: 15%;
+    margin-right: 40.5%;
+    margin-left: auto;
+    margin-top: 3%;
+    padding-bottom: 2px;
+    padding-left: 2px;
+}
+
+#pokemon-img-div {
+    margin-left: 1%;
+    margin-right: auto;
+    width: 30%;
+    height: 40%;
+    position: relative;
+    top: -33%;
+    left: 5%;
+}
+
+#pokemon-weight-div {
+    padding-left: 2px;
+    padding-bottom: 2px;
+    border: 3px solid black;
+    width: 29%;
+    margin-right: 26.5%;
+    margin-left: auto;
+    position: relative;
+    top: -33%;
+}
+#pokemon-description-div {
+    text-align: justify;
+    white-space: nowrap;
+    position: relative;
+    top: -25%;
+    padding-left: 2%;
+}
+#user-login {
+    width: 40%;
+    margin: 2% auto;
+    text-align: center;
+}
+.user {
+    outline: none;
+    width: 60%;
+    display: block;
+    padding-left: 1%;
+    margin: 2% auto; 
+    height: 50px;
+    border: 3px solid black;
+    font-size: x-large;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 25px;   
+}
+#login {
+    outline: none;
+    width: 40%;
+    height: 75px;
+    background-color: indigo;
+    color: whitesmoke;
+    font-size: x-large;
+    border-radius: 10px;
+}
+header {
+    text-align: center;
+    font-size: 6rem;
+    margin-top: 5%;
+}
+#reset-div {
+    margin-top: 1%;
+    margin-left: 1%;
+    text-align: center;
+    width: 17%;
+}
+#reset {
+    outline: none;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 100%;
+    display: block;
+    padding-left: 3%;
+    height: 30px;
+    border: 3px solid black;
+    font-size: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 25px;   
+}
+.btn {
+    outline: none;
+    width: 47%;
+    height: 28px;
+    background-color: indigo;
+    color: whitesmoke;
+    font-size: 1rem;
+    border-radius: 10px;
+}
+#register-div {
+    display: block;
+    width: 35%;
+    text-align: center;
+    margin: 0px auto;
+}
+.register {
+    width: 100%;
+    outline: none;
+    display: block;
+    padding-left: 2%;
+    border: 3px solid black;
+    margin: 2% auto; 
+    height: 35px;
+    font-size: x-large;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 25px;
+}
+#error {
+    color: red;
+    font-weight: bold;
+    font-size: 1.5rem;
+}

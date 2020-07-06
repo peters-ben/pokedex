@@ -22,7 +22,7 @@ class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(300), unique=True, nullable=False)
-    password = db.Column(db.String(300), unique=False, nullable=False)
+    password = db.Column(db.Binary(60), unique=False, nullable=False)
 
     def __init__(self, username, email, password):
         self.username = username
@@ -33,7 +33,6 @@ class Users(db.Model):
         return '<User %r>' % self.username
 
 
-@app.route('/')
 @app.route('/index')
 @app.route('/index.html')
 def index():
@@ -45,23 +44,37 @@ def index():
 def search():
     return render_template('search.html')
 
-
-@app.route('/login')
-@app.route('/login.html')
+@app.route('/')
+@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login.html', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    if request.method == 'POST':
+        username = request.form["login-username"]
+        password = request.form["login-password"].encode('utf-8')
+        user = db.session.query(Users).filter((Users.username == username.lower()) | (Users.email == username.lower())).first()
+        try:
+            if bcrypt.checkpw(password, user.password):
+                return redirect(url_for("index"))
+            else:
+                flash("Invalid login!")
+                return render_template('/login.html')
+        except AttributeError:
+            flash("User not found!")
+            return render_template('login.html')
+    else:
+        return render_template('login.html')
 
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 @app.route('/register.html', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form["username"]
         email = request.form["email"]
-        if db.session.query(db.exists().where(Users.username == username)).scalar():
+        if db.session.query(db.exists().where(Users.username == username.lower())).scalar():
             flash("Error! Username already taken!")
             return render_template('register.html')
-        elif db.session.query(db.exists().where(Users.email == email)).scalar():
+        elif db.session.query(db.exists().where(Users.email == email.lower())).scalar():
             flash("Error! Email already taken!")
             return render_template('register.html')
         else:

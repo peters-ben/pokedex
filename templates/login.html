@@ -6,16 +6,25 @@
     </head>
     <body>
         <ul>
-            <li><a href="index.html">Home</a></li>
-            <li class="active"><a href="login.html">Login</a></li>
+             <li class="active"><a href="login.html">Home</a></li>
             <li><a href="search.html">Search</a></li>
-            <li><a>About</a></li>
+            <li><a href="">My Account</a></li>
+            <li><a href="index.html">About</a></li>
         </ul>
         <header>Pokedex</header>
         <div id="user-login">
-            <input class="user" type="text" placeholder="Enter username">
-            <input class="user" type="text" placeholder="Enter password">
-            <input id="login" type="submit" value="Login">
+            <p>{% with messages = get_flashed_messages() %}
+                {% if messages %}
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+            {% endif %}
+            {% endwith %}</p>
+            <form action="/login.html" method="post">
+                <input class="user" name=login-username type="text" placeholder="Enter username/email">
+                <input class="user" name=login-password type="password" placeholder="Enter password">
+                <input id="login" type="submit" value="Login">
+            </form>
             <p><a href="reset.html">Forgot your password?</a></p>
             <p>Don't have an account? <a href="register.html">Register</a></p>
         </div>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+        <title>Register</title>
+    </head>
+    <body>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li class="active"><a href="login.html">Login</a></li>
+            <li><a href="search.html">Search</a></li>
+            <li><a>About</a></li>
+        </ul>
+        <div id="register-div">
+            <form action="/register.html" method="post" name="form" onsubmit="return register();">
+            <input class="register" id="username" type="text" name="username" placeholder="Enter a username (3-15 characters)">
+            <input class="register" id="email" type="email" name="email" placeholder="Enter an email address">
+            <input class="register" id="password" type="password"  name="password" placeholder="Enter a password (5+ characters)">
+            <input class="register" id="re-password" type="password" placeholder="Re-enter your password">
+            <input class="btn" id="register-btn" type="submit" value="Register">
+            <p id="error"></p>
+            </form>
+        </div>
+    </body>
+</html>

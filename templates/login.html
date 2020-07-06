@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <title>Login</title>
+    </head>
+    <body>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li class="active"><a href="login.html">Login</a></li>
+            <li><a href="search.html">Search</a></li>
+            <li><a>About</a></li>
+        </ul>
+        <header>Pokedex</header>
+        <div id="user-login">
+            <input class="user" type="text" placeholder="Enter username">
+            <input class="user" type="text" placeholder="Enter password">
+            <input id="login" type="submit" value="Login">
+            <p><a href="reset.html">Forgot your password?</a></p>
+            <p>Don't have an account? <a href="register.html">Register</a></p>
+        </div>
+    </body>
+</html>

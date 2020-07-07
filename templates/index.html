@@ -18,6 +18,13 @@
             of which Pokemon you have seen or caught, be sure to create an account
             and stay logged in!
         </p>
+            <p>{% with messages = get_flashed_messages() %}
+                {% if messages %}
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+            {% endif %}
+            {% endwith %}</p>
         </div>
     </body>
 </html>

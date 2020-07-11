@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
+from sqlalchemy.ext.mutable import Mutable
+from sqlalchemy.dialects.postgresql import ARRAY
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
 from flask_login import UserMixin, LoginManager, login_user, current_user, login_required
@@ -17,10 +19,26 @@ app.config['MAIL_USERNAME'] = secrets.MAIL_USERNAME
 app.config['MAIL_PASSWORD'] = secrets.MAIL_PASSWORD
 app.config['MAIL_USE_SSL'] = secrets.MAIL_USE_SSL
 app.config['MAIL_USE_TLS'] = secrets.MAIL_USE_TLS
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 db = SQLAlchemy(app)
 mail = Mail(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+
+class MutableList(Mutable, list):
+    def append(self, value):
+        list.append(self, value)
+        self.changed()
+
+    @classmethod
+    def coerce(cls, key, value):
+        if not isinstance(value, MutableList):
+            if isinstance(value, list):
+                return MutableList(value)
+            return Mutable.coerce(key, value)
+        else:
+            return value
 
 
 class Users(UserMixin, db.Model):
@@ -28,24 +46,22 @@ class Users(UserMixin, db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(300), unique=True, nullable=False)
     password = db.Column(db.Binary(60), unique=False, nullable=False)
-    pokemon_data = db.Column(db.ARRAY(db.Integer), unique=False, nullable=False)
+    pokemon_data = db.Column(MutableList.as_mutable(ARRAY(db.Integer)), unique=False, nullable=False)
 
     def __init__(self, username, email, password):
         self.username = username
         self.email = email
         self.password = password
         self.pokemon_data = []
-        for i in range(808):
+        for i in range(807):
             self.pokemon_data.append(0)
 
     def __repr__(self):
         return '<User %r>' % self.username
 
-
 @login_manager.user_loader
 def load_user(user_id):
-    return Users.query.get(int(user_id))
-
+    return Users.query.get(user_id)
 
 @app.route('/index')
 @app.route('/index.html')
@@ -55,10 +71,21 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/search.html')
-@app.route('/search')
+@app.route('/search.html', methods=['GET', 'POST'])
+@app.route('/search', methods=['GET', 'POST'])
 def search():
-    return render_template('search.html')
+    if request.method == 'POST':
+        data = request.get_json()
+        if current_user.is_authenticated:
+            query = 'UPDATE users SET pokemon_data [' + str(data.get("id")) + '] = ' + str(data.get("status"))  + \
+                    ' WHERE username = \'' + str(current_user.username) + '\''
+            print(query)
+            db.session.execute(query)
+            db.session.commit()
+            print(data)
+        else:
+            print("You are not currently logged in!")
+    return render_template('search.html', )
 
 
 @app.route('/')
@@ -121,3 +148,4 @@ def reset():
 
 if __name__ == '__main__':
     app.run(debug=True)
+

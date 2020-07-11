@@ -32,6 +32,8 @@ function submit(choice) {
         document.getElementById("pokemon-weight").innerText = "Weight: " + weight + " kg";
         document.getElementById("pokemon-height").innerText = "Height: " + height + " m";
         document.getElementById("pokemon-img").src = "static/images/" + id + ".png";
+        document.getElementById("pokemon-seen").checked = false;
+        document.getElementById("pokemon-caught").checked = false;
         })
     }
 }
@@ -67,9 +69,11 @@ function getSpecies(id) {
             console.log("Species Error!");
         }
     }).then(species => {
-        for(i = 10; i < 20; i++) {
+        for(i = 0; i < 20; i++) {
             if(species.flavor_text_entries[i].language.name == "en") {
                 let description = species.flavor_text_entries[i].flavor_text;
+                if(description.includes(""))
+                    continue;
                 document.getElementById("pokemon-description").innerText = description;
                 break;
             }
@@ -106,4 +110,21 @@ function register() {
         }
     console.log("error in submitting form!");
     return false;
+}
+function dataSubmit() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", '/search.html', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    let obj = new Object();
+    obj.id = parseInt(document.getElementById("pokemon-name").innerText.slice(0,3));
+    obj.status = 0;
+    let seen = document.getElementById("pokemon-seen");
+    let caught = document.getElementById("pokemon-caught");
+    if(caught.checked)
+        obj.status = 2;
+    else if(seen.checked)
+        obj.status = 1;
+    let jsonString = JSON.stringify(obj);
+    xhr.send(jsonString);
+    return 0;
 }

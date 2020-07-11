@@ -70,17 +70,17 @@ def index():
 @app.route('/search.html', methods=['GET', 'POST'])
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    if request.method == 'POST':
-        data = request.get_json()
-        if current_user.is_authenticated:
+    if current_user.is_authenticated:
+        if request.method == 'POST':
             query = 'UPDATE users SET pokemon_data [' + str(data.get("id")) + '] = ' + str(data.get("status")) + \
                     ' WHERE username = \'' + str(current_user.username) + '\''
+            data = request.get_json()
             print(query)
+            print(data)
             db.session.execute(query)
             db.session.commit()
-            print(data)
-        else:
-            print("You are not currently logged in!")
+    else:
+        return render_template('search.html', not_logged_in="Please log in for these to save!")
     if 'Content-Type' in request.headers:
         pokearray = current_user.pokemon_data
         return json.dumps(pokearray)
@@ -102,7 +102,7 @@ def login():
                 return redirect(url_for("login"))  # CHANGE TO MY ACCOUNT LATER
             else:
                 flash("Invalid login!")
-                return render_template('/login.html')
+                return render_template('login.html')
         except AttributeError:
             flash("User not found!")
             return render_template('login.html')
@@ -142,6 +142,7 @@ def register():
 @app.route('/reset')
 @app.route('/reset.html')
 def reset():
+
     return render_template('reset.html')
 
 

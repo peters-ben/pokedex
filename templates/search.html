@@ -32,6 +32,9 @@
                 <input type="checkbox" id="pokemon-seen" name="seen" value="isSeen" onclick="dataSubmit()">
                 <label for="pokemon-caught">Check if caught</label>
                 <input type="checkbox" id="pokemon-caught" name="caught" value="isCaught" onclick="dataSubmit()">
+                <div id="not-logged-in">
+                    <p> {{ not_logged_in }} </p>
+                </div>
             </div>
             <div id="pokemon-img-div">
                 <img id="pokemon-img" class="pokemon">

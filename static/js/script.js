@@ -32,8 +32,7 @@ function submit(choice) {
         document.getElementById("pokemon-weight").innerText = "Weight: " + weight + " kg";
         document.getElementById("pokemon-height").innerText = "Height: " + height + " m";
         document.getElementById("pokemon-img").src = "static/images/" + id + ".png";
-        document.getElementById("pokemon-seen").checked = false;
-        document.getElementById("pokemon-caught").checked = false;
+        checkbox(id);
         })
     }
 }
@@ -128,3 +127,19 @@ function dataSubmit() {
     xhr.send(jsonString);
     return 0;
 }
+ function checkbox(id) {
+                document.getElementById("pokemon-seen").checked = false;
+                document.getElementById("pokemon-caught").checked = false;
+                id = parseInt(id);
+                alert(pokemondata);
+                alert(pokemondata[0])
+                if(pokemondata[id - 1] == 1) {
+                    alert("SEEN")
+                    document.getElementById('pokemon-seen').checked = true;
+                    }
+                else if(pokemondata[id - 1] == 2) {
+                    alert("CAUGHT!")
+                    document.getElementById('pokemon-seen').checked = true;
+                    document.getElementById('pokemon-caught').checked = true;
+                }
+            }

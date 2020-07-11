@@ -1,8 +1,8 @@
 function submit(choice) {
     let pokemon = document.getElementById("search").value;
     pokemon = pokemon.toLowerCase();
-    if (!isNaN(parseInt(pokemon)))
-    pokemon = parseInt(pokemon);
+    if (!isNaN(parseInt(pokemon)) && isFinite(pokemon))
+        pokemon = parseInt(pokemon);
     if(choice == 1) {
         pokemon = Math.floor(Math.random() * 806) + 1;
     }
@@ -10,31 +10,32 @@ function submit(choice) {
 
     } else {
     getData(pokemon).then(data => {
-        let id = parseInt(data.id);
-        if(id < 100) {
-            if(id < 10)
-                id = "00" + id;
-            else
-                id = "0" + id;
+        if(data) {
+            let id = parseInt(data.id);
+            if(id < 100) {
+                if(id < 10)
+                    id = "00" + id;
+                else
+                    id = "0" + id;
+            }
+            getSpecies(id);
+            if(document.getElementById("pokemon-info").style.display == "none")
+            document.getElementById("pokemon-info").style.display = "block";
+            let height = data.height / 10;
+            let type = data.types[0].type.name.slice(0,1).toUpperCase() +
+            data.types[0].type.name.slice(1);
+            let weight = data.weight / 10;
+            let name = data.forms[0].name.slice(0,1).toUpperCase() +
+            data.forms[0].name.slice(1);
+            document.getElementById("pokeball-img").src = "https://p7.hiclipart.com/preview/858/879/587/5bbeb70d53fc2.jpg"
+            document.getElementById("pokemon-name").innerText = id + "\t" + name;
+            document.getElementById("pokemon-type").innerText = type;
+            document.getElementById("pokemon-weight").innerText = "Weight: " + weight + " kg";
+            document.getElementById("pokemon-height").innerText = "Height: " + height + " m";
+            document.getElementById("pokemon-img").src = "static/images/" + id + ".png";
+            checkbox(id);
+        }})
         }
-        getSpecies(id);
-        if(document.getElementById("pokemon-info").style.display == "none")
-        document.getElementById("pokemon-info").style.display = "block";
-        let height = data.height / 10;
-        let type = data.types[0].type.name.slice(0,1).toUpperCase() +
-        data.types[0].type.name.slice(1);
-        let weight = data.weight / 10;
-        let name = data.forms[0].name.slice(0,1).toUpperCase() +
-        data.forms[0].name.slice(1);
-        document.getElementById("pokeball-img").src = "https://p7.hiclipart.com/preview/858/879/587/5bbeb70d53fc2.jpg"
-        document.getElementById("pokemon-name").innerText = id + "\t" + name;
-        document.getElementById("pokemon-type").innerText = type;
-        document.getElementById("pokemon-weight").innerText = "Weight: " + weight + " kg";
-        document.getElementById("pokemon-height").innerText = "Height: " + height + " m";
-        document.getElementById("pokemon-img").src = "static/images/" + id + ".png";
-        checkbox(id);
-        })
-    }
 }
 function getData(pokemon) {
     return fetch("https://pokeapi.co/api/v2/pokemon/" + pokemon).then(res => {
@@ -48,7 +49,8 @@ function getData(pokemon) {
         document.getElementById("pokemon-weight").innerText = "Weight: N/A";
         document.getElementById("pokemon-height").innerText = "Height: N/A";
         document.getElementById("pokemon-img").src = "https://w7.pngwing.com/pngs/190/415/png-transparent-pokemon-gold-and-silver-pokemon-heartgold-and-soulsilver-pokemon-ruby-and-sapphire-question-mark-text-trademark-logo.png";
-
+        document.getElementById("pokemon-seen").checked = false;
+        document.getElementById("pokemon-caught").checked = false;
         document.getElementById("pokemon-description").innerText = "No description available.";
         console.log("Error!");
     }
@@ -119,8 +121,10 @@ function dataSubmit() {
     obj.status = 0;
     let seen = document.getElementById("pokemon-seen");
     let caught = document.getElementById("pokemon-caught");
-    if(caught.checked)
+    if(caught.checked) {
         obj.status = 2;
+        document.getElementById("pokemon-seen").checked = true;
+        }
     else if(seen.checked)
         obj.status = 1;
     let jsonString = JSON.stringify(obj);
@@ -128,18 +132,18 @@ function dataSubmit() {
     return 0;
 }
  function checkbox(id) {
-                document.getElementById("pokemon-seen").checked = false;
-                document.getElementById("pokemon-caught").checked = false;
-                id = parseInt(id);
-                alert(pokemondata);
-                alert(pokemondata[0])
-                if(pokemondata[id - 1] == 1) {
-                    alert("SEEN")
+   fetch('/search.html', {headers: {"Content-type": "application/json"}}).then(response => {
+        return response.json();
+        }).then(pokemondata => {
+               document.getElementById("pokemon-seen").checked = false;
+               document.getElementById("pokemon-caught").checked = false;
+               id = parseInt(id);
+               if(pokemondata[id - 1] == 1) {
                     document.getElementById('pokemon-seen').checked = true;
-                    }
-                else if(pokemondata[id - 1] == 2) {
-                    alert("CAUGHT!")
+               }
+               else if(pokemondata[id - 1] == 2) {
                     document.getElementById('pokemon-seen').checked = true;
                     document.getElementById('pokemon-caught').checked = true;
-                }
-            }
+         }
+      });
+}

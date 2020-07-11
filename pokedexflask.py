@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+import json
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
 from flask_login import UserMixin, LoginManager, login_user, current_user, login_required, AnonymousUserMixin
@@ -80,7 +81,10 @@ def search():
             print(data)
         else:
             print("You are not currently logged in!")
-    return render_template('search.html', pokemondata=current_user.pokemon_data)
+    if 'Content-Type' in request.headers:
+        pokearray = current_user.pokemon_data
+        return json.dumps(pokearray)
+    return render_template('search.html')
 
 
 @app.route('/')

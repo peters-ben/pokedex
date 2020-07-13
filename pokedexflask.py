@@ -2,7 +2,7 @@ import json
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
-from flask_login import UserMixin, LoginManager, login_user, current_user, login_required, AnonymousUserMixin
+from flask_login import UserMixin, LoginManager, login_user, current_user, AnonymousUserMixin, logout_user
 from itsdangerous import URLSafeTimedSerializer, BadTimeSignature, BadSignature
 import bcrypt
 
@@ -21,11 +21,13 @@ app.config['MAIL_PASSWORD'] = secrets.MAIL_PASSWORD
 app.config['MAIL_USE_SSL'] = secrets.MAIL_USE_SSL
 app.config['MAIL_USE_TLS'] = secrets.MAIL_USE_TLS
 app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.config['SESSION_PERMANENT'] = False
 db = SQLAlchemy(app)
 mail = Mail(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 reset_url = URLSafeTimedSerializer(secrets.SECRET_KEY_URL)
+login_manager.session_protection = "strong"
 
 
 class Anonymous(AnonymousUserMixin):
@@ -56,18 +58,16 @@ class Users(UserMixin, db.Model):
 
 login_manager.anonymous_user = Anonymous
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return Users.query.get(user_id)
 
 
-@app.route('/index')
-@app.route('/index.html')
-@login_required
-def index():
-    flash("The current user is: " + current_user.username)
-    return render_template('index.html')
+@app.route('/')
+@app.route('/home')
+@app.route('/home.html')
+def home():
+    return render_template('home.html')
 
 
 @app.route('/search.html', methods=['GET', 'POST'])
@@ -88,7 +88,6 @@ def search():
     return render_template('search.html')
 
 
-@app.route('/', methods=['GET', 'POST'])
 @app.route('/login.html', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -99,8 +98,8 @@ def login():
             (Users.username == username.lower()) | (Users.email == username.lower())).first()
         try:
             if bcrypt.checkpw(password, user.password):
-                login_user(user)
-                return redirect(url_for("login"))  # CHANGE TO MY ACCOUNT LATER
+                login_user(user, remember=False)
+                return redirect(url_for("home"))  # CHANGE TO MY ACCOUNT LATER
             else:
                 flash("Invalid login!")
                 return render_template('login.html')
@@ -135,8 +134,8 @@ def register():
                                                 " you enjoy the website!" \
                                                 "\nThanks, Online Pokedex"
             mail.send(message)
-            login_user(user)
-            return redirect(url_for("login"))  # CHANGE TO MY ACCOUNT LATER
+            login_user(user, remember=False)
+            return redirect(url_for("home"))  # CHANGE TO MY ACCOUNT LATER
     else:
         return render_template('register.html')
 

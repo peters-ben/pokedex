@@ -7,10 +7,14 @@
 </head>
 <body>
     <ul>
-        <li class="active"><a href="login.html">Home</a></li>
+        <li><a href="home.html">Home</a></li>
         <li><a href="search.html">Search</a></li>
-        <li><a href="">My Account</a></li>
-        <li><a href="index.html">About</a></li>
+         {% if current_user.is_authenticated %}
+            <li><a href="">My Account</a></li>
+            {% else %}
+            <li class="active"><a href="login.html">Login</a></li>
+            {% endif %}
+        <li><a href="https://github.com/peters-ben/pokedex" target="_blank">Github</a></li>
         </ul>
 
     <div class="forgot-div">

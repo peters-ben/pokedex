@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Update Account Info</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+    <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="search.html">Search</a></li>
+             {% if current_user.is_authenticated %}
+            <li class="active"><a href="account.html">My Account</a></li>
+            {% else %}
+            <li><a href="login.html">Login</a></li>
+            {% endif %}
+            <li><a href="https://github.com/peters-ben/pokedex" target="_blank">Github</a></li>
+        </ul>
+    <div class="forgot-div">
+                <form action="/update.html" method="post" onsubmit="return update()">
+                    <input class="forgot" id="update-username" name="username" type="text" placeholder="Update username">
+                    <input class="forgot" id="update-email" name="email" type="email" placeholder="Update email">
+                    <input class="forgot" id="update-password" name="password" type="password" placeholder="Update password">
+                    <input class="forgot" id="update-repassword" name="re-password" type="password" placeholder="Re-enter password">
+                    <input class="btn" type="submit">
+                </form>
+            </div>
+         <p id="update-error"> {{ update_error }} </p>
+</body>
+</html>

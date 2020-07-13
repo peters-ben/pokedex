@@ -16,13 +16,19 @@
             <li><a href="https://github.com/peters-ben/pokedex" target="_blank">Github</a></li>
         </ul>
     <div class="description">
-        <h1 style="color: whitesmoke; text-decoration: underline">Pokemon Info</h1>
             <p class="pokemon">
+                Username: {{ username }} <br>
+                E-mail: {{ email }} <br>
                 Pokemon seen: {{seen}} <br>
                 Pokemon caught: {{caught}} <br>
-                <form action="/account.html" method="post">
-                    <input id="log-out" type="submit" value="Log out" class="btn">
-                </form>
+                <div id="account-btns">
+                    <form action="/account.html" method="post" style="display: inline">
+                        <input id="update-info" name="update-info" type="submit" value="Update info" class="btn">
+                    </form>
+                    <form action="/account.html" method="post"style="display: inline">
+                        <input id="log-out" name="log-out" type="submit" value="Log out" class="btn">
+                    </form>
+                </div>
             </p>
     </div>
 </body>

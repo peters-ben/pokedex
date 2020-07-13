@@ -91,30 +91,44 @@ function getSpecies(id) {
 }
 function register() {
     username = document.getElementById("username").value;
-    email = document.getElementById("email").value
-    if(username.length < 3 || username.length > 15) {
-        document.getElementById("error").innerHTML = "ERROR: Username must be 3-15 characters long!";
-        console.log("Error! username too short!");
-    }
+    password = document.getElementById("password").value;
+    repassword = document.getElementById("re-password").value;
+    email = document.getElementById("email").value;
+    error = document.getElementById("error");
+    if (!verify_username(username, error)) {}
     else if(!email) {
         document.getElementById("error").innerHTML = "ERROR: Please enter an email!";
         console.log("Error! No email entered!");
         }
-    else if(document.getElementById("password").value.length < 5) {
-        document.getElementById("error").innerText = "ERROR: Password must be 5+ characters long!";
-        console.log("Error! password too short");
-    }
-    else if(document.getElementById("password").value != document.getElementById("re-password").value) {
-        document.getElementById("error").innerText = "ERROR: Passwords must match!";
-        console.log("Error! passwords don't match");
-    }
+    else if(!verify_password(password, repassword, error)) {}
     else {
-        document.getElementById("error").innerHTML = "";
+        error.innerHTML = "";
         console.log("Successful register!");
         return true;
         }
     console.log("error in submitting form!");
     return false;
+}
+function verify_username(username, error) {
+    if(username.length < 3 || username.length > 15) {
+        error.innerHTML = "ERROR: Username must be 3-15 characters long!";
+        console.log("Error! username too short!");
+        return false;
+    }
+    return true;
+}
+function verify_password(password, repassword, error) {
+    if(password.length < 5) {
+        error.innerText = "ERROR: Password must be 5+ characters long!";
+        console.log("Error! password too short");
+        return false;
+    }
+    else if(password != repassword) {
+        error.innerText = "ERROR: Passwords must match!";
+        console.log("Error! passwords don't match");
+        return false;
+    }
+    return true;
 }
 function dataSubmit() {
     var xhr = new XMLHttpRequest();
@@ -152,16 +166,33 @@ function dataSubmit() {
       });
 }
 function reset_password() {
-    password = document.getElementById("reset-password");
-    repassword = document.getElementById("reset-repassword");
-    if(password.value != repassword.value) {
-        document.getElementById("reset-error").innerText = "Error: Passwords must match!";
-        console.log("ERROR! Passwords don't match!");
-    } else {
-        document.getElementById("reset-error").innerHTML = "";
+    password = document.getElementById("reset-password").value;
+    repassword = document.getElementById("reset-repassword").value;
+    error = document.getElementById("reset-error");
+    if(!verify_password(password, repassword, error)) {}
+    else {
+        error.innerHTML = "";
         console.log("Successful register!");
         return true;
     }
     console.log("error in submitting form!");
     return false;
+}
+function update() {
+    username = document.getElementById("update-username").value;
+    email = document.getElementById("update-email").value;
+    password = document.getElementById("update-password").value;
+    repassword = document.getElementById("update-repassword").value;
+    error = document.getElementById("update-error");
+    let username_bool = true;
+    let password_bool = true;
+    if(username != "") {
+    console.log("Not empty!");
+    username_bool = verify_username(username, error);
+    }
+    if(password != "" || repassword != "") {password_bool = verify_password(password, repassword, error);}
+    if(username_bool && password_bool) {return true;}
+    console.log("error in submitting form!");
+    return false;
+
 }

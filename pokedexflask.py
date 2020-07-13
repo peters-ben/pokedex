@@ -196,9 +196,37 @@ def account():
             seen += 1
             caught += 1
     if request.method == 'POST':
-        logout_user()
+        if 'update-info' in request.form:
+            return redirect(url_for('update'))
+        else:
+            logout_user()
+            return redirect(url_for('home'))
+    return render_template('account.html', seen=seen, caught=caught, username=user.username, email=user.email)
+
+
+@app.route('/update', methods=['GET', 'POST'])
+@app.route('/update.html', methods=['GET', 'POST'])
+def update():
+    if request.method == 'POST':
+        user = current_user
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        if username != "":
+            if db.session.query(db.exists().where(Users.username == username.lower())).scalar():
+                return render_template('update.html', update_error="Username already taken!")
+            else:
+                user.username = username
+        if email != "":
+            if db.session.query(db.exists().where(Users.email == email.lower())).scalar():
+                return render_template('update.html', update_error="Email already taken!")
+            else:
+                user.email = email
+        if password != "":
+            user.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        db.session.commit()
         return redirect(url_for('home'))
-    return render_template('account.html', seen=seen, caught=caught)
+    return render_template('update.html')
 
 
 if __name__ == '__main__':

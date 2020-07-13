@@ -20,7 +20,7 @@ function submit(choice) {
             }
             getSpecies(id);
             if(document.getElementById("pokemon-info").style.display == "none")
-            document.getElementById("pokemon-info").style.display = "block";
+                document.getElementById("pokemon-info").style.display = "block";
             let height = data.height / 10;
             let type = data.types[0].type.name.slice(0,1).toUpperCase() +
             data.types[0].type.name.slice(1);
@@ -33,6 +33,7 @@ function submit(choice) {
             document.getElementById("pokemon-weight").innerText = "Weight: " + weight + " kg";
             document.getElementById("pokemon-height").innerText = "Height: " + height + " m";
             document.getElementById("pokemon-img").src = "static/images/" + id + ".png";
+            document.getElementById("pokemon-data-div").style.display = "block";
             checkbox(id);
         }})
         }
@@ -43,6 +44,8 @@ function getData(pokemon) {
         console.log("Success!");
         return res.json();
     } else {
+        if(document.getElementById("pokemon-info").style.display == "none")
+            document.getElementById("pokemon-info").style.display = "block";
         document.getElementById("pokeball-img").src = "https://p7.hiclipart.com/preview/858/879/587/5bbeb70d53fc2.jpg"
         document.getElementById("pokemon-name").innerText = "--- Unknown Pokemon";
         document.getElementById("pokemon-type").innerText = "Type: N/A"
@@ -51,6 +54,7 @@ function getData(pokemon) {
         document.getElementById("pokemon-img").src = "https://w7.pngwing.com/pngs/190/415/png-transparent-pokemon-gold-and-silver-pokemon-heartgold-and-soulsilver-pokemon-ruby-and-sapphire-question-mark-text-trademark-logo.png";
         document.getElementById("pokemon-seen").checked = false;
         document.getElementById("pokemon-caught").checked = false;
+        document.getElementById("pokemon-data-div").style.display = "none";
         document.getElementById("pokemon-description").innerText = "No description available.";
         console.log("Error!");
     }

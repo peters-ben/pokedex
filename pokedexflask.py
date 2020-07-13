@@ -181,5 +181,25 @@ def reset(token):
         return render_template('reset.html', token=token)
 
 
+@app.route('/account', methods=['GET', 'POST'])
+@app.route('/account.html', methods=['GET', 'POST'])
+def account():
+    if not current_user.is_authenticated:
+        return redirect(url_for('home'))
+    user = current_user
+    seen = 0
+    caught = 0
+    for pokemon in user.pokemon_data:
+        if pokemon == 1:
+            seen += 1
+        if pokemon == 2:
+            seen += 1
+            caught += 1
+    if request.method == 'POST':
+        logout_user()
+        return redirect(url_for('home'))
+    return render_template('account.html', seen=seen, caught=caught)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

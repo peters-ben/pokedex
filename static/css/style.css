@@ -79,13 +79,13 @@ ul {
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     display: inline;
 }
-#home-description {
+.description {
     width: 50%;
     text-align: center;
     margin: 1% auto;
     background-color: #333;
     border-radius: 25px;
-    padding: 1%;
+    padding: 1% 1% 0 1%;
 }
 #pokemon-info {
     margin: 3% auto;
@@ -233,7 +233,6 @@ header {
     font-size: 1.5rem;
 }
 #pokemon-data-div {
-    display: block !important;
     border: 3px solid black;
     width: 32%;
     padding-left: 1%;
@@ -254,4 +253,9 @@ header {
     text-align: center;
     padding: 0;
     font-size: 1.25rem;
+}
+#log-out {
+    width: 15%;
+    margin-top: 3%;
+    margin-bottom: 1%;
 }

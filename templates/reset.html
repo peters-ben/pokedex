@@ -1,21 +1,27 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-        <title>Reset Password</title>
-    </head>
-    <body>
-        <ul>
-            <li class="active"><a href="login.html">Home</a></li>
-            <li><a href="search.html">Search</a></li>
-            <li><a href="">My Account</a></li>
-            <li><a href="index.html">About</a></li>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <title>Reset Password</title>
+</head>
+<body>
+    <ul>
+        <li class="active"><a href="login.html">Home</a></li>
+        <li><a href="search.html">Search</a></li>
+        <li><a href="">My Account</a></li>
+        <li><a href="index.html">About</a></li>
         </ul>
-            <div id="reset-div">
-                <form>
-                    <input id="reset" type="text" placeholder="Enter username/email">
+
+    <div class="forgot-div">
+        {% if too_old != "Expired token!" %}
+                <form action="/reset/{{token}}.html" method="post" name="form" onsubmit="return reset_password()">
+                    <input class="forgot" id="reset-password" name="reset-password" type="password" placeholder="Enter new password">
+                    <input class="forgot" id="reset-repassword" name="reset-repassword" type="password" placeholder="Re-enter new password">
                     <input class="btn" type="submit">
                 </form>
             </div>
-    </body>
+        {% endif %}
+    <p id="reset-error">{{ too_old }}</p>
+</body>
 </html>

@@ -181,13 +181,13 @@ header {
     font-size: 6rem;
     margin-top: 5%;
 }
-#reset-div {
+.forgot-div {
     margin-top: 1%;
     margin-left: 1%;
     text-align: center;
     width: 17%;
 }
-#reset {
+.forgot {
     outline: none;
     margin-top: 2%;
     margin-bottom: 2%;

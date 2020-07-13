@@ -147,3 +147,17 @@ function dataSubmit() {
          }
       });
 }
+function reset_password() {
+    password = document.getElementById("reset-password");
+    repassword = document.getElementById("reset-repassword");
+    if(password.value != repassword.value) {
+        document.getElementById("reset-error").innerText = "Error: Passwords must match!";
+        console.log("ERROR! Passwords don't match!");
+    } else {
+        document.getElementById("reset-error").innerHTML = "";
+        console.log("Successful register!");
+        return true;
+    }
+    console.log("error in submitting form!");
+    return false;
+}

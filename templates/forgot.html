@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <title>Reset Password</title>
+    </head>
+    <body>
+        <ul>
+            <li class="active"><a href="login.html">Home</a></li>
+            <li><a href="search.html">Search</a></li>
+            <li><a href="">My Account</a></li>
+            <li><a href="index.html">About</a></li>
+        </ul>
+            <div class="forgot-div">
+                <form action="/forgot.html" method="post">
+                    <input class="forgot" name="forgot" type="text" placeholder="Enter username/email">
+                    <input class="btn" type="submit">
+                </form>
+            </div>
+            <p>{{ user_found }}</p>
+    </body>
+</html>

@@ -1,9 +1,11 @@
 import json
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
 from flask_login import UserMixin, LoginManager, login_user, current_user, login_required, AnonymousUserMixin
+from itsdangerous import URLSafeTimedSerializer, BadTimeSignature, BadSignature
 import bcrypt
+
 import secrets
 
 app = Flask(__name__)
@@ -23,6 +25,7 @@ db = SQLAlchemy(app)
 mail = Mail(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
+reset_url = URLSafeTimedSerializer(secrets.SECRET_KEY_URL)
 
 
 class Anonymous(AnonymousUserMixin):
@@ -72,11 +75,9 @@ def index():
 def search():
     if current_user.is_authenticated:
         if request.method == 'POST':
+            data = request.get_json()
             query = 'UPDATE users SET pokemon_data [' + str(data.get("id")) + '] = ' + str(data.get("status")) + \
                     ' WHERE username = \'' + str(current_user.username) + '\''
-            data = request.get_json()
-            print(query)
-            print(data)
             db.session.execute(query)
             db.session.commit()
     else:
@@ -87,9 +88,9 @@ def search():
     return render_template('search.html')
 
 
-@app.route('/')
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/login.html', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form["login-username"]
@@ -134,16 +135,51 @@ def register():
                                                 " you enjoy the website!" \
                                                 "\nThanks, Online Pokedex"
             mail.send(message)
+            login_user(user)
             return redirect(url_for("login"))  # CHANGE TO MY ACCOUNT LATER
     else:
         return render_template('register.html')
 
 
-@app.route('/reset')
-@app.route('/reset.html')
-def reset():
+@app.route('/forgot', methods=['GET', 'POST'])
+@app.route('/forgot.html', methods=['GET', 'POST'])
+def forgot():
+    if request.method == "POST":
+        username = request.form["forgot"]
+        if db.session.query(db.exists().where(Users.username == username.lower())).scalar() or \
+                db.session.query(db.exists().where(Users.email == username.lower())).scalar():
+            user = db.session.query(Users).filter((Users.username == username.lower()) |
+                                                  (Users.email == username.lower())).first()
+            email_url = reset_url.dumps([user.username])
+            message = Message("Online Pokedex Password Reset", recipients=[user.email], sender=secrets.MAIL_USERNAME)
+            link = url_for('reset', token=email_url, _external=True)
+            message.body = "Hello {},\nClick here to reset your password: {}".format(user.username, link)
+            mail.send(message)
+            return render_template('forgot.html', user_found="Email Sent!")
+        else:
+            return render_template('forgot.html', user_found="User not found!")
+    else:
+        return render_template('forgot.html')
 
-    return render_template('reset.html')
+
+@app.route('/reset', defaults={'token': ""}, methods=['GET', 'POST'])
+@app.route('/reset.html', defaults={'token': ""}, methods=['GET', 'POST'])
+@app.route('/reset/<token>', methods=['GET', 'POST'])
+@app.route('/reset/<token>.html', methods=['GET', 'POST'])
+def reset(token):
+    try:
+        username = reset_url.loads(token, max_age=100)[0]
+        user = db.session.query(Users).filter((Users.username == username.lower()) |
+                                              (Users.email == username.lower())).first()
+    except (BadTimeSignature, BadSignature):
+        return render_template('reset.html', too_old="Expired token!")
+    if request.method == "POST":
+        password = request.form["reset-password"].encode('utf-8')
+        user.password = bcrypt.hashpw(password, bcrypt.gensalt())
+        db.session.commit()
+        return redirect(url_for("login"))  # CHANGE TO MY ACCOUNT LATER
+    else:
+        return render_template('reset.html', token=token)
 
 
 if __name__ == '__main__':

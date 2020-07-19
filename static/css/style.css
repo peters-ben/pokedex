@@ -1,6 +1,5 @@
 body {
     background-color: lightskyblue;
-
 }
 .container {
     margin-top: 3%
@@ -11,21 +10,18 @@ ul {
     padding: 0;
     overflow: hidden;
     background-color: gray;
-  }
-
-  li {
+ }
+li {
     float: left;
-  }
-
-  li a {
+}
+li a {
     display: block;
     color: white;
     font-size: x-large;
     text-align: center;
     padding: 16px 16px;
     text-decoration: none;
-  }
-
+ }
   li a:hover {
     background-color: #111;
   }
@@ -268,4 +264,23 @@ header {
 #account-btns {
     width: 80%;
     margin: auto;
+}
+
+@media (max-width: 769px) {
+.description {
+    width: 80%;
+    height: 315px;
+}
+.pokemon {
+    font-size: xx-large;
+    }
+}
+@media (max-width: 375px) {
+.description {
+    width: 85%;
+    height: 250px;
+}
+.pokemon {
+    font-size: 1.3rem;
+    }
 }

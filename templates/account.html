@@ -1,35 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <title>My Account</title>
-</head>
-<body>
-    <ul>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="search.html">Search</a></li>
-             {% if current_user.is_authenticated %}
-            <li class="active"><a href="account.html">My Account</a></li>
-            {% else %}
-            <li><a href="login.html">Login</a></li>
-            {% endif %}
-            <li><a href="https://github.com/peters-ben/pokedex" target="_blank">Github</a></li>
-        </ul>
+{% extends "layout.html" %}
+{% set active_page = "account" %}
+{% block content %}
     <div class="description">
-            <p class="pokemon">
-                Username: {{ username }} <br>
-                E-mail: {{ email }} <br>
-                Pokemon seen: {{seen}} <br>
-                Pokemon caught: {{caught}} <br>
-                <div id="account-btns">
-                    <form action="/account.html" method="post" style="display: inline">
-                        <input id="update-info" name="update-info" type="submit" value="Update info" class="btn">
-                    </form>
-                    <form action="/account.html" method="post"style="display: inline">
-                        <input id="log-out" name="log-out" type="submit" value="Log out" class="btn">
-                    </form>
-                </div>
-            </p>
+        <p class="pokemon">
+            Username: {{ username }} <br>
+            E-mail: {{ email }} <br>
+            Pokemon seen: {{seen}} <br>
+            Pokemon caught: {{caught}} <br>
+            <div id="account-btns">
+                <form action="/account" method="post" style="display: inline">
+                    <input id="update-info" name="update-info" type="submit" value="Update info" class="btn">
+                </form>
+                <form action="/account" method="post" style="display: inline">
+                    <input id="log-out" name="log-out" type="submit" value="Log out" class="btn">
+                </form>
+            </div>
+        </p>
     </div>
-</body>
-</html>
+{% endblock content %}

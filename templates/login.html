@@ -1,36 +1,21 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-        <title>Login</title>
-    </head>
-    <body>
-        <ul>
-             <li><a href="home.html">Home</a></li>
-            <li><a href="search.html">Search</a></li>
-             {% if current_user.is_authenticated %}
-            <li><a href="account.html">My Account</a></li>
-            {% else %}
-            <li class="active"><a href="login.html">Login</a></li>
-            {% endif %}
-            <li><a href="https://github.com/peters-ben/pokedex" target="_blank">Github</a></li>
-        </ul>
-        <header>Pokedex</header>
-        <div id="user-login">
-            <p>{% with messages = get_flashed_messages() %}
-                {% if messages %}
-            {% for message in messages %}
-                {{ message }}
-            {% endfor %}
-            {% endif %}
-            {% endwith %}</p>
-            <form action="/login.html" method="post">
-                <input class="user" name=login-username type="text" placeholder="Enter username/email">
-                <input class="user" name=login-password type="password" placeholder="Enter password">
-                <input id="login" type="submit" value="Login">
-            </form>
-            <p><a href="forgot.html">Forgot your password?</a></p>
-            <p>Don't have an account? <a href="register.html">Register</a></p>
-        </div>
-    </body>
-</html>
+{% extends "layout.html" %}
+{% set active_page = "login" %}
+{% block content %}
+    <header>Pokedex</header>
+    <div id="user-login">
+        <p>{% with messages = get_flashed_messages() %}
+            {% if messages %}
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+        {% endif %}
+        {% endwith %}</p>
+        <form action="/login" method="post">
+            <input class="user" name=login-username type="text" placeholder="Enter username/email">
+            <input class="user" name=login-password type="password" placeholder="Enter password">
+            <input id="login" type="submit" value="Login">
+        </form>
+        <p><a href="forgot">Forgot your password?</a></p>
+        <p>Don't have an account? <a href="register">Register</a></p>
+    </div>
+{% endblock content %}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <meta name="viewport" content="width=device-width">
+    <title>{{ title }}</title>
+</head>
+<body>
+    {% if current_user.is_authenticated %}
+        {% set navigation_bar = [
+        ('/', 'home', 'Home'),
+        ('/search', 'search', 'Search'),
+        ('/account', 'account', 'My Account'),
+        ] %}
+    {% else %}
+        {% set navigation_bar = [
+        ('/', 'home', 'Home'),
+        ('/search', 'search', 'Search'),
+        ('/login', 'login', 'Login'),
+        ] %}
+    {% endif %}
+{% set active_page = active_page|default('home') %}
+<ul>
+{% for href, id, caption in navigation_bar %}
+  <li{% if id == active_page %} class="active"{% endif
+  %}><a href="{{ href }}">{{ caption }}</a></li>
+{% endfor %}
+  <li><a href="https://github.com/peters-ben/pokedex" target="_blank">GitHub</a></li>
+</ul>
+ {% block content %} {% endblock content%}
+</body>
+</html>

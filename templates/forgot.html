@@ -1,26 +1,11 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-        <title>Reset Password</title>
-    </head>
-    <body>
-        <ul>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="search.html">Search</a></li>
-             {% if current_user.is_authenticated %}
-            <li><a href="account.html">My Account</a></li>
-            {% else %}
-            <li class="active"><a href="login.html">Login</a></li>
-            {% endif %}
-            <li><a href="https://github.com/peters-ben/pokedex" target="_blank">Github</a></li>
-        </ul>
-            <div class="forgot-div">
-                <form action="/forgot.html" method="post">
-                    <input class="forgot" name="forgot" type="text" placeholder="Enter username/email">
-                    <input class="btn" type="submit">
-                </form>
-            </div>
-            <p>{{ user_found }}</p>
-    </body>
-</html>
+{% extends "layout.html" %}
+{% set active_page = "login" %}
+{% block content %}
+    <div class="forgot-div">
+        <form action="/forgot" method="post">
+            <input class="forgot" name="forgot" type="text" placeholder="Enter username/email">
+            <input class="btn" type="submit">
+        </form>
+    </div>
+    <p>{{ user_found }}</p>
+{% endblock content %}

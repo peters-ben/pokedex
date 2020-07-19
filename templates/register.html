@@ -1,23 +1,8 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-        <title>Register</title>
-    </head>
-    <body>
-        <ul>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="search.html">Search</a></li>
-             {% if current_user.is_authenticated %}
-            <li><a href="account.html">My Account</a></li>
-            {% else %}
-            <li class="active"><a href="login.html">Login</a></li>
-            {% endif %}
-            <li><a href="https://github.com/peters-ben/pokedex" target="_blank">Github</a></li>
-        </ul>
-        <div id="register-div">
-            <form action="/register.html" method="post" name="form" onsubmit="return register();">
+{% extends "layout.html" %}
+{% set active_page = "login" %}
+{% block content %}
+    <div id="register-div">
+        <form action="/register" method="post" name="form" onsubmit="return register();">
             <input class="register" id="username" type="text" name="username" placeholder="Enter a username (3-15 characters)">
             <input class="register" id="email" type="email" name="email" placeholder="Enter an email address">
             <input class="register" id="password" type="password"  name="password" placeholder="Enter a password (5+ characters)">
@@ -25,13 +10,12 @@
             <input class="btn" id="register-btn" type="submit" value="Register">
             <p id="error"> {% with messages = get_flashed_messages() %}
                 {% if messages %}
-            {% for message in messages %}
-                {{ message }}
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
             </p>
-            </form>
-        </div>
-    </body>
-</html>
+        </form>
+    </div>
+{% endblock content %}

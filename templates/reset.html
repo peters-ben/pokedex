@@ -1,25 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-    <title>Reset Password</title>
-</head>
-<body>
-    <ul>
-        <li><a href="home.html">Home</a></li>
-        <li><a href="search.html">Search</a></li>
-         {% if current_user.is_authenticated %}
-            <li><a href="account.html">My Account</a></li>
-            {% else %}
-            <li class="active"><a href="login.html">Login</a></li>
-            {% endif %}
-        <li><a href="https://github.com/peters-ben/pokedex" target="_blank">Github</a></li>
-        </ul>
-
+{% extends "layout.html" %}
+{% set active_page = "login" %}
+{% block content %}
     <div class="forgot-div">
         {% if too_old != "Expired token!" %}
-                <form action="/reset/{{token}}.html" method="post" name="form" onsubmit="return reset_password()">
+                <form action="/reset/{{token}}" method="post" name="form" onsubmit="return reset_password()">
                     <input class="forgot" id="reset-password" name="reset-password" type="password" placeholder="Enter new password">
                     <input class="forgot" id="reset-repassword" name="reset-repassword" type="password" placeholder="Re-enter new password">
                     <input class="btn" type="submit">
@@ -27,5 +11,4 @@
             </div>
         {% endif %}
     <p id="reset-error">{{ too_old }}</p>
-</body>
-</html>
+{% endblock content %}

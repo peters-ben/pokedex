@@ -1,28 +1,11 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-        <title>Online Pokedex</title>
-    </head>
-    <body>
-        <ul>
-            <li class="active"><a href="home.html">Home</a></li>
-            <li><a href="search.html">Search</a></li>
-            {% if current_user.is_authenticated %}
-            <li><a href="account.html">My Account</a></li>
-            {% else %}
-            <li><a href="login.html">Login</a></li>
-            {% endif %}
-            <li><a href="https://github.com/peters-ben/pokedex" target="_blank">Github</a></li>
-        </ul>
-        <div class="description">
+{% extends "layout.html" %}
+{% block content %}
+    <div class="description">
         <p class="pokemon">Hello and welcome to my online Pokedex! This website will allow you to
             look up as well as keep track of any Pokemon you have seen or caught
             on your journey through the Pokemon world! If you wish to keep track
             of which Pokemon you have seen or caught, be sure to create an account
             and stay logged in!
         </p>
-        </div>
-    </body>
-</html>
+    </div>
+{% endblock content %}

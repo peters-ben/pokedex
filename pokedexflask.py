@@ -1,4 +1,5 @@
 import json
+import secrets
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
@@ -6,28 +7,14 @@ from flask_login import UserMixin, LoginManager, login_user, current_user, Anony
 from itsdangerous import URLSafeTimedSerializer, BadTimeSignature, BadSignature
 import bcrypt
 
-import secrets
 
 app = Flask(__name__)
-app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://' + secrets.username + ':' + secrets.password + '@' \
-                                        + secrets.address
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['SECRET_KEY'] = secrets.SECRET_KEY
-app.config['MAIL_SERVER'] = secrets.MAIL_SERVER
-app.config['MAIL_PORT'] = secrets.MAIL_PORT
-app.config['MAIL_USERNAME'] = secrets.MAIL_USERNAME
-app.config['MAIL_PASSWORD'] = secrets.MAIL_PASSWORD
-app.config['MAIL_USE_SSL'] = secrets.MAIL_USE_SSL
-app.config['MAIL_USE_TLS'] = secrets.MAIL_USE_TLS
-app.config['TEMPLATES_AUTO_RELOAD'] = True
-app.config['SESSION_PERMANENT'] = False
+app.config.from_object("config.ProductionConfig")
 db = SQLAlchemy(app)
 mail = Mail(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 reset_url = URLSafeTimedSerializer(secrets.SECRET_KEY_URL)
-login_manager.session_protection = "strong"
 
 
 class Anonymous(AnonymousUserMixin):
@@ -62,15 +49,11 @@ login_manager.anonymous_user = Anonymous
 def load_user(user_id):
     return Users.query.get(user_id)
 
-
 @app.route('/')
 @app.route('/home')
-@app.route('/home.html')
 def home():
     return render_template('home.html')
 
-
-@app.route('/search.html', methods=['GET', 'POST'])
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     if current_user.is_authenticated:
@@ -88,7 +71,6 @@ def search():
     return render_template('search.html')
 
 
-@app.route('/login.html', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -99,7 +81,7 @@ def login():
         try:
             if bcrypt.checkpw(password, user.password):
                 login_user(user, remember=False)
-                return redirect(url_for("home"))  # CHANGE TO MY ACCOUNT LATER
+                return redirect(url_for("update"))  # CHANGE TO MY ACCOUNT LATER
             else:
                 flash("Invalid login!")
                 return render_template('login.html')
@@ -111,7 +93,6 @@ def login():
 
 
 @app.route('/register', methods=['GET', 'POST'])
-@app.route('/register.html', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form["username"]
@@ -123,8 +104,8 @@ def register():
             flash("Error! Email already taken!")
             return render_template('register.html')
         else:
-            password = request.form["password"]
-            hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+            password = request.form["password"].encode('utf-8')
+            hashed = bcrypt.hashpw(password, bcrypt.gensalt())
             user = Users(username, email, hashed)
             db.session.add(user)
             db.session.commit()
@@ -141,7 +122,6 @@ def register():
 
 
 @app.route('/forgot', methods=['GET', 'POST'])
-@app.route('/forgot.html', methods=['GET', 'POST'])
 def forgot():
     if request.method == "POST":
         username = request.form["forgot"]
@@ -162,9 +142,7 @@ def forgot():
 
 
 @app.route('/reset', defaults={'token': ""}, methods=['GET', 'POST'])
-@app.route('/reset.html', defaults={'token': ""}, methods=['GET', 'POST'])
 @app.route('/reset/<token>', methods=['GET', 'POST'])
-@app.route('/reset/<token>.html', methods=['GET', 'POST'])
 def reset(token):
     try:
         username = reset_url.loads(token, max_age=100)[0]
@@ -182,7 +160,6 @@ def reset(token):
 
 
 @app.route('/account', methods=['GET', 'POST'])
-@app.route('/account.html', methods=['GET', 'POST'])
 def account():
     if not current_user.is_authenticated:
         return redirect(url_for('home'))
@@ -205,7 +182,6 @@ def account():
 
 
 @app.route('/update', methods=['GET', 'POST'])
-@app.route('/update.html', methods=['GET', 'POST'])
 def update():
     if request.method == 'POST':
         user = current_user
@@ -230,4 +206,4 @@ def update():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

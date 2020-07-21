@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% set active_page = "account" %}
 {% block content %}
-    <div class="description">
+    <div class="description" id="account-info">
         <p class="pokemon">
             Username: {{ username }} <br>
             E-mail: {{ email }} <br>
@@ -9,10 +9,10 @@
             Pokemon caught: {{caught}} <br>
             <div id="account-btns">
                 <form action="/account" method="post" style="display: inline">
-                    <input id="update-info" name="update-info" type="submit" value="Update info" class="btn">
+                    <input class="btn update-btn" name="update-info" type="submit" value="Update">
                 </form>
                 <form action="/account" method="post" style="display: inline">
-                    <input id="log-out" name="log-out" type="submit" value="Log out" class="btn">
+                    <input class="btn update-btn" name="log-out" type="submit" value="Log out">
                 </form>
             </div>
         </p>

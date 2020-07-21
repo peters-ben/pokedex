@@ -94,10 +94,10 @@ function register() {
     password = document.getElementById("password").value;
     repassword = document.getElementById("re-password").value;
     email = document.getElementById("email").value;
-    error = document.getElementById("error");
+    error = document.getElementById("register-error");
     if (!verify_username(username, error)) {}
     else if(!email) {
-        document.getElementById("error").innerHTML = "ERROR: Please enter an email!";
+        error.innerHTML = "ERROR: Please enter an email!";
         console.log("Error! No email entered!");
         }
     else if(!verify_password(password, repassword, error)) {}
@@ -132,7 +132,7 @@ function verify_password(password, repassword, error) {
 }
 function dataSubmit() {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", '/search.html', true);
+    xhr.open("POST", '/search', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     let obj = new Object();
     obj.id = parseInt(document.getElementById("pokemon-name").innerText.slice(0,3));
@@ -150,7 +150,7 @@ function dataSubmit() {
     return 0;
 }
  function checkbox(id) {
-   fetch('/search.html', {headers: {"Content-type": "application/json"}}).then(response => {
+   fetch('/search', {headers: {"Content-type": "application/json"}}).then(response => {
         return response.json();
         }).then(pokemondata => {
                document.getElementById("pokemon-seen").checked = false;

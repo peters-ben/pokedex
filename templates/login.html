@@ -3,19 +3,13 @@
 {% block content %}
     <header>Pokedex</header>
     <div id="user-login">
-        <p>{% with messages = get_flashed_messages() %}
-            {% if messages %}
-        {% for message in messages %}
-            {{ message }}
-        {% endfor %}
-        {% endif %}
-        {% endwith %}</p>
+        <p style="color: black;"> {{ login_error }}</p>
         <form action="/login" method="post">
             <input class="user" name=login-username type="text" placeholder="Enter username/email">
             <input class="user" name=login-password type="password" placeholder="Enter password">
-            <input id="login" type="submit" value="Login">
+            <input id="login" class="btn" type="submit" value="Login">
         </form>
-        <p><a href="forgot">Forgot your password?</a></p>
-        <p>Don't have an account? <a href="register">Register</a></p>
+        <p><a style="color: black;" href="forgot">Forgot your password?</a></p>
+        <p style="color: black;">Don't have an account? <a style="color: black;" href="register">Register</a></p>
     </div>
 {% endblock content %}

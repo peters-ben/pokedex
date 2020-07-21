@@ -8,13 +8,7 @@
             <input class="register" id="password" type="password"  name="password" placeholder="Enter a password (5+ characters)">
             <input class="register" id="re-password" type="password" placeholder="Re-enter your password">
             <input class="btn" id="register-btn" type="submit" value="Register">
-            <p id="error"> {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                {% for message in messages %}
-                    {{ message }}
-                {% endfor %}
-                {% endif %}
-                {% endwith %}
+            <p class="error" id="register-error"> {{ register_error }}
             </p>
         </form>
     </div>

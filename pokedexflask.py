@@ -1,6 +1,6 @@
 import json
 import secrets
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
 from flask_login import UserMixin, LoginManager, login_user, current_user, AnonymousUserMixin, logout_user
@@ -81,13 +81,11 @@ def login():
         try:
             if bcrypt.checkpw(password, user.password):
                 login_user(user, remember=False)
-                return redirect(url_for("update"))  # CHANGE TO MY ACCOUNT LATER
+                return redirect(url_for("account"))  # CHANGE TO MY ACCOUNT LATER
             else:
-                flash("Invalid login!")
-                return render_template('login.html')
+                return render_template('login.html', login_error="Invalid login!")
         except AttributeError:
-            flash("User not found!")
-            return render_template('login.html')
+            return render_template('login.html', login_error="User not found!")
     else:
         return render_template('login.html')
 
@@ -98,11 +96,9 @@ def register():
         username = request.form["username"]
         email = request.form["email"]
         if db.session.query(db.exists().where(Users.username == username.lower())).scalar():
-            flash("Error! Username already taken!")
-            return render_template('register.html')
+            return render_template('register.html', register_error="Error! Username already taken!")
         elif db.session.query(db.exists().where(Users.email == email.lower())).scalar():
-            flash("Error! Email already taken!")
-            return render_template('register.html')
+            return render_template('register.html', register_error="Error! Email already taken!")
         else:
             password = request.form["password"].encode('utf-8')
             hashed = bcrypt.hashpw(password, bcrypt.gensalt())

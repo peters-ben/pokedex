@@ -20,7 +20,7 @@ function submit(choice) {
             }
             getSpecies(id);
             if(document.getElementById("pokemon-info").style.display == "none")
-                document.getElementById("pokemon-info").style.display = "block";
+                document.getElementById("pokemon-info").style.display = "grid";
             let height = data.height / 10;
             let type = data.types[0].type.name.slice(0,1).toUpperCase() +
             data.types[0].type.name.slice(1);

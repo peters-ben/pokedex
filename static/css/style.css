@@ -73,14 +73,23 @@ li a:hover {
     padding: 1% 1% 0 1%;
 }
 #pokemon-info {
-    margin: 3% auto;
+    grid-template-columns: 185px min-content 60px 85px 70px 105px 90px min-content min-content;
+    grid-template-rows: 45px min-content min-content min-content min-content;
+    grid-template-areas: "img img . name name name name name "
+                         "img img . type data data not-logged . "
+                         "img img . weight weight . not-logged . "
+                         "img img . description description description description description "
+                         " . . . description description description description description ";
+
     width: 40%;
     height: 330px;
+    margin: 3% auto;
+    grid-gap: 5px;
 }
 #pokemon-info > div {
     text-align: left;
+    overflow-wrap: break-word;
     border: 3px solid black;
-    position: relative;
 }
 #pokeball-img {
     width: 7%;
@@ -89,47 +98,37 @@ li a:hover {
     top: 2.5px;
 }
 #pokemon-name-div {
-    padding-left: 5px;
+    grid-area: name;
     background-color: red;
-    width: 50%;
-    padding: 3px auto;
-    margin: 5% 5% auto auto;
+    border: 3px solid black;
 }
  #pokemon-img {
-    width: 100%;
+    width: 150%;
 }
 #pokemon-type-div {
-    width: 15%;
-    margin: 3% 40.5% auto auto;
-    padding: auto auto 2px 2px;
+    grid-area: type;
 }
 #pokemon-img-div {
-    margin: auto auto auto 1%;
-    width: 30%;
-    height: 40%;
-    top: -33%;
-    left: 5%;
+    grid-area: img;
     border: none !important;
+    margin-right: 25px;
 }
 #pokemon-weight-div {
-    padding: auto auto 2px 2px;
-    width: 29%;
-    margin: auto 26.5% auto auto;
-    top: -33%;
+    grid-area: weight;
 }
 #pokemon-description-div {
+    grid-area: description;
     text-align: justify !important;
     white-space: nowrap;
-    top: -30%;
-    padding-left: 2%;
-    border: none !important;
+    padding: 3px;
 }
 #pokemon-data-div {
-    width: 32%;
-    padding-left: 1%;
-    margin: 0px auto;
-    top: 3%;
-    left: 10%;
+    grid-area: data;
+}
+#not-logged-in {
+    grid-area: not-logged;
+    padding-left: 5px;
+    border: none !important;
 }
 #user-login {
     width: 40%;
@@ -178,14 +177,6 @@ header {
 }
 #pokemon-seen {
     margin-left: 15%;
-}
-#not-logged-in {
-    position: absolute;
-    width: 60%;
-    height: 170%;
-    left: 215px;
-    top: -27px;
-    padding: 0;
 }
 .update-btn {
     width: 20%;

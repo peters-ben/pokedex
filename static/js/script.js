@@ -1,3 +1,6 @@
+/* Description: Runs whenever user clicks submit or random button of search. Input of 0 = Submit, 1 = Random
+                Fetches pokemon data from the PokeAPI and sets proper HTML elements to those values if the pokemon exists
+    */
 function submit(choice) {
     let pokemon = document.getElementById("search").value;
     pokemon = pokemon.toLowerCase();
@@ -38,6 +41,7 @@ function submit(choice) {
         }})
         }
 }
+// Description: Returns pokemon data from PokeAPI if pokemon exists, otherwise displays error
 function getData(pokemon) {
     return fetch("https://pokeapi.co/api/v2/pokemon/" + pokemon).then(res => {
     if(res.ok) {
@@ -65,6 +69,7 @@ function getData(pokemon) {
         console.log(error);
     })
 }
+// Description: Returns description of pokemon to be displayed
 function getSpecies(id) {
     return fetch("https://pokeapi.co/api/v2/pokemon-species/" + parseInt(id)).then(res => {
         if(res.ok) {
@@ -75,9 +80,9 @@ function getSpecies(id) {
         }
     }).then(species => {
         for(i = 0; i < 20; i++) {
-            if(species.flavor_text_entries[i].language.name == "en") {
+            if(species.flavor_text_entries[i].language.name == "en") { // Ensures description is in English
                 let description = species.flavor_text_entries[i].flavor_text;
-                if(description.includes(""))
+                if(description.includes("")) // ensures description doesn't contain strange character
                     continue;
                 document.getElementById("pokemon-description").innerText = description;
                 break;
@@ -89,6 +94,7 @@ function getSpecies(id) {
         }
     }).catch(error => console.log("SPECIES ERROR!"));
 }
+// Description: Verifies user entered registration information that meets criteria to register
 function register() {
     username = document.getElementById("username").value;
     password = document.getElementById("password").value;
@@ -109,6 +115,7 @@ function register() {
     console.log("error in submitting form!");
     return false;
 }
+// Description: Ensures user entered a valid username (Between 4-14 characters long)
 function verify_username(username, error) {
     if(username.length < 3 || username.length > 15) {
         error.innerHTML = "ERROR: Username must be 3-15 characters long!";
@@ -117,6 +124,7 @@ function verify_username(username, error) {
     }
     return true;
 }
+// Description: Ensures user entered a valid password (5+ characters long, password same as re-entered password)
 function verify_password(password, repassword, error) {
     if(password.length < 5) {
         error.innerText = "ERROR: Password must be 5+ characters long!";
@@ -130,6 +138,7 @@ function verify_password(password, repassword, error) {
     }
     return true;
 }
+// Description: Submits JSON to Flask containing Pokemon's id and value based on if they have been seen or captured
 function dataSubmit() {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", '/search', true);
@@ -149,6 +158,7 @@ function dataSubmit() {
     xhr.send(jsonString);
     return 0;
 }
+// Description: Sets seen or caught checkboxes to checked based on if user previously checked them (must be logged in)
  function checkbox(id) {
    fetch('/search', {headers: {"Content-type": "application/json"}}).then(response => {
         return response.json();
@@ -165,6 +175,7 @@ function dataSubmit() {
          }
       });
 }
+// Ensures user entered correct information to reset their password
 function reset_password() {
     password = document.getElementById("reset-password").value;
     repassword = document.getElementById("reset-repassword").value;
@@ -178,6 +189,7 @@ function reset_password() {
     console.log("error in submitting form!");
     return false;
 }
+// Description: Ensures user entered correct info to update their settings
 function update() {
     username = document.getElementById("update-username").value;
     email = document.getElementById("update-email").value;

@@ -16,14 +16,14 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 reset_url = URLSafeTimedSerializer(secrets.SECRET_KEY_URL)
 
-
+# Description: Creates class for users not logged in to have an array so their checkboxes in search will be blank
 class Anonymous(AnonymousUserMixin):
     def __init__(self):
         self.pokemon_data = []
         for i in range(807):
             self.pokemon_data.append(0)
 
-
+# Description: User class, gives each user an id, username, email, password, and array of which pokemon have been seen/caught
 class Users(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
@@ -45,15 +45,18 @@ class Users(UserMixin, db.Model):
 
 login_manager.anonymous_user = Anonymous
 
+# Description: Returns current user
 @login_manager.user_loader
 def load_user(user_id):
     return Users.query.get(user_id)
 
+# Description: Loads home page
 @app.route('/')
 @app.route('/home')
 def home():
     return render_template('home.html')
 
+# Description: Loads search page, inserts submitted JSON into database
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     if current_user.is_authenticated:
@@ -70,7 +73,7 @@ def search():
         return json.dumps(pokearray)
     return render_template('search.html')
 
-
+# Description: Loads login page, ensures user entered correct username and password, logs in user
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -89,7 +92,7 @@ def login():
     else:
         return render_template('login.html')
 
-
+# Description: Loads register page, ensures username and email are unique, hashes password, stores in database, emails user
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -116,7 +119,7 @@ def register():
     else:
         return render_template('register.html')
 
-
+# Description: Loads forgot page, if user exists send them reset email
 @app.route('/forgot', methods=['GET', 'POST'])
 def forgot():
     if request.method == "POST":
@@ -136,7 +139,7 @@ def forgot():
     else:
         return render_template('forgot.html')
 
-
+# Description: Loads reset page, ensures token is valid and changes password to new password entered
 @app.route('/reset', defaults={'token': ""}, methods=['GET', 'POST'])
 @app.route('/reset/<token>', methods=['GET', 'POST'])
 def reset(token):
@@ -154,7 +157,7 @@ def reset(token):
     else:
         return render_template('reset.html', token=token)
 
-
+# Description: Loads account page, if user is logged in: display their information
 @app.route('/account', methods=['GET', 'POST'])
 def account():
     if not current_user.is_authenticated:
@@ -176,7 +179,7 @@ def account():
             return redirect(url_for('home'))
     return render_template('account.html', seen=seen, caught=caught, username=user.username, email=user.email)
 
-
+# Description: Load update page, update database based on what user entered
 @app.route('/update', methods=['GET', 'POST'])
 def update():
     if request.method == 'POST':

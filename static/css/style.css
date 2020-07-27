@@ -4,7 +4,7 @@ body {
 body * {
     color: whitesmoke;
      text-align: center;
-     font-size: 1.1em;
+     font-size: 1vw;
 }
 #container {
     margin-top: 3%
@@ -73,13 +73,13 @@ li a:hover {
     padding: 1% 1% 0 1%;
 }
 #pokemon-info {
-    grid-template-columns: 185px min-content 60px 85px 70px 105px 90px min-content min-content;
-    grid-template-rows: 45px min-content min-content min-content min-content;
-    grid-template-areas: "img img . name name name name name "
-                         "img img . type data data not-logged . "
-                         "img img . weight weight . not-logged . "
+    grid-template-columns: 26% min-content 8% min-content 12% 15% 13% min-content min-content;
+    grid-template-rows: 15% min-content min-content min-content min-content;
+    grid-template-areas: "img img . name        name        name        name        name "
+                         "img img . type        data        data        not-logged  . "
+                         "img img . weight      weight      .           not-logged  . "
                          "img img . description description description description description "
-                         " . . . description description description description description ";
+                         ".   .   . description description description description description ";
 
     width: 40%;
     height: 330px;
@@ -124,6 +124,7 @@ li a:hover {
 }
 #pokemon-data-div {
     grid-area: data;
+    float: left;
 }
 #not-logged-in {
     grid-area: not-logged;
@@ -176,7 +177,7 @@ header {
     text-align: left;
 }
 #pokemon-seen {
-    margin-left: 15%;
+    margin-left: 13.5%;
 }
 .update-btn {
     width: 20%;

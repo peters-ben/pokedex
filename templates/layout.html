@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> <!-- Default layout -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,8 +8,8 @@
     <title>{{ title }}</title>
 </head>
 <body>
-    {% if current_user.is_authenticated %}
-        {% set navigation_bar = [
+    {% if current_user.is_authenticated %} <!-- If user is logged in -->
+        {% set navigation_bar = [ <!-- Nav Bar -->
         ('/', 'home', 'Home'),
         ('/search', 'search', 'Search'),
         ('/account', 'account', 'My Account'),

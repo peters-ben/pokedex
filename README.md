@@ -9,9 +9,9 @@ seen and how many they have capture.
 ## Features
 - Create account and change username, email, or password
 - Search for and view information about any of the 807 Pokémon currently available in the Pokémon universe
-- View a random Pokémon
+- Security for passwords through bcrypt salting and hashing, password resetting through ItsDangerous authentication tokens
 - Select and keep track of which Pokémon you've seen or captured
-- Persistant data
+- Sends user email whenever account is created or password is forgotten
 
 ## Built with
 - Python (Flask)
